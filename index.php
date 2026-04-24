@@ -1,3 +1,28 @@
+<?php 
+session_start();
+include("db/db.php");
+
+if(isset($_POST['submit'])){
+
+    $inputEmail = $_POST['email'];
+    $inputPassword = $_POST['password'];
+
+    $result = mysqli_query($conn, 
+    "SELECT * FROM admin WHERE email='$inputEmail' AND password='$inputPassword'");
+
+    if(mysqli_num_rows($result) == 1){
+
+        $_SESSION['admin'] = $inputEmail;
+
+        header("Location: dashboard.php");
+        exit();
+
+    } else{
+        echo "<script>alert('Invalid email or password');</script>";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +73,7 @@
         <p>Please enter your administrator credentials</p>
       </div>
 
-      <form class="login-form"  onsubmit="handleSubmit(event)">
+      <form class="login-form" method="POST">
 
         <!-- Administrator Email -->
         <div class="login-field">
@@ -75,7 +100,7 @@
         </div>
 
         <!-- Submit -->
-        <button class="login-submit" type="submit">
+        <button class="login-submit" type="submit" name="submit">
           <span>Sign In to Portal</span>
           <span class="material-symbols-outlined">arrow_forward</span>
         </button>
@@ -92,7 +117,7 @@
 
 </main>
 
-<script>
+<!-- <script>
   const email = "demobloodbank@email.com"
   const password = "demopassword123"
 
@@ -112,7 +137,7 @@
     e.target.password.value = "";
     
   }
-</script>
+</script> -->
 
 </body>
 </html>

@@ -1,3 +1,14 @@
+<?php 
+  session_start();
+
+include("db/db.php");
+
+if (!isset($_SESSION['admin'])){
+  header("Location: index.php");
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,23 +34,23 @@
 
   <!-- Nav Links -->
   <nav class="sidebar-nav">
-    <a href="dashboard.html">
+    <a href="dashboard.php">
       <span class="material-symbols-outlined">dashboard</span>
       <span class="nav-label">Dashboard</span>
     </a>
-    <a href="donors.html">
+    <a href="donors.php">
       <span class="material-symbols-outlined">group</span>
       <span class="nav-label">Donors</span>
     </a>
-    <a href="receivers.html" class="active">
+    <a href="receivers.php" class="active">
       <span class="material-symbols-outlined">diversity_3</span>
       <span class="nav-label">Receivers</span>
     </a>
-    <a href="stock.html">
+    <a href="stock.php">
       <span class="material-symbols-outlined">inventory_2</span>
       <span class="nav-label">Stock</span>
     </a>
-    <a href="staff.html">
+    <a href="staff.php">
       <span class="material-symbols-outlined">badge</span>
       <span class="nav-label">Staff</span>
     </a>
@@ -74,18 +85,22 @@
             "
           >
             <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBokxf7eYH7xslUCL1z0ha4SQWwRZ2iQNIgBrUNpgwh7f-9KeLtRcNGu69n-KJHbZLeMP4lwOc9jZlbO4I1vwsGDWm2i03Ot0OnQLpyJkaHKtH1gDN8Pp-9MEuvi05A2GwEAo2rFpDplh4uFnKoN76MVYqurtpBKV3hozTcCsSBtRE1bhIeDhm6hz71qJJ0j9lTx3P-XQxaP3QycRiSj-v_4IpiFrtSOw7v1_Gkhbuwgt1WJ3NzsUU6ZDCa1spcgUoEGmaOpoQt2YM"
+              src="https://imgs.search.brave.com/wV3xjLUAA0KAxg04P9n_RbW0hWcPAA_gQKoQltugCew/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jZG4u/dmVjdG9yc3RvY2su/Y29tL2kvNTAwcC81/Mi82OS9wcm9maWxl/LWNvbXBsZXRpb24t/cHJvZ3Jlc3MtdWkt/ZWxlbWVudC10ZW1w/bGF0ZS12ZWN0b3It/NDUxOTUyNjkuanBn"
               alt="Admin Profile"
               style="width: 100%; height: 100%; object-fit: cover"
             />
           </div>
           <div>
-            <p class="sidebar-admin-name">Admin Profile</p>
-            <p class="sidebar-admin-role">Super User</p>
+            <?php 
+              $result = mysqli_query($conn, "SELECT * FROM admin");
+              $row = mysqli_fetch_assoc($result);
+            ?>
+            <p class="sidebar-admin-name"><?php echo ucwords($row['name'])?></p>
+            <p class="sidebar-admin-role"><?php echo strtolower($row['email'])?></p>
           </div>
         </div>
         <a
-          href="index.html"
+          href="index.php"
           style="
             display: flex;
             align-items: center;

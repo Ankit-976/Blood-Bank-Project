@@ -279,7 +279,6 @@ a {
   font-size: 11px;
   font-weight: 500;
   color: #64748b; /* slate-500 */
-  text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
@@ -337,6 +336,10 @@ a {
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: var(--spacing-lg);
+}
+
+.page-header h1{
+  color: #000000;
 }
 
 .page-header-label {
@@ -1378,7 +1381,10 @@ td {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 @media (min-width: 768px) {
@@ -2314,34 +2320,9 @@ td {
   color: var(--on-surface);
 }
 
-.staff-stat-badge-teal {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--tertiary);
-}
-
-.staff-stat-pulse {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #22c55e;
-  margin-bottom: 8px;
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.4; }
-}
-
-.staff-stat-urgent {
-  background-color: var(--error-container);
-  color: var(--on-error-container);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
 }
 
 /* ── Controls Bar (search / filter / export) ── */
@@ -2663,7 +2644,7 @@ td {
 
 
 /* =========================================================
-   Stock Management Page — stockold.html converted styles
+   Stock Management Page — stockold.php converted styles
    (appended — does not override existing rules above)
    ========================================================= */
 
@@ -3312,4 +3293,181 @@ td {
 
 .footer-links a:hover {
   color: #ef4444;
+}
+
+/* =========================================================
+   Add Staff Page
+   ========================================================= */
+.add-staff-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-margin);
+  background-color: #f8f8f8;
+}
+
+.add-staff-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 896px;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  padding: 40px;
+}
+
+.add-staff-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.add-staff-header h1 {
+  font-family: 'Manrope', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.2;
+}
+
+.add-staff-header p {
+  color: #6b7280;
+  margin-top: 4px;
+  font-size: 14px;
+}
+
+.add-staff-back-btn {
+  padding: 8px 20px;
+  background-color: #e5e7eb;
+  border-radius: var(--radius-lg);
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--on-surface);
+  text-decoration: none;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+.add-staff-back-btn:hover {
+  background-color: #d1d5db;
+}
+
+.add-staff-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.add-staff-form .field-full {
+  grid-column: 1 / -1;
+}
+
+.add-staff-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.add-staff-field label {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+.add-staff-field input,
+.add-staff-field select,
+.add-staff-field textarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius-lg);
+  padding: 12px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--on-surface);
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.add-staff-field input:focus,
+.add-staff-field select:focus,
+.add-staff-field textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(183, 19, 26, 0.15);
+}
+
+.add-staff-field input::placeholder,
+.add-staff-field textarea::placeholder {
+  color: #9ca3af;
+}
+
+.add-staff-field textarea {
+  height: 112px;
+  resize: vertical;
+}
+
+.add-staff-field input[type="file"] {
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.add-staff-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.btn-reset {
+  padding: 12px 24px;
+  background-color: #e5e7eb;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--on-surface);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-reset:hover {
+  background-color: #d1d5db;
+}
+
+.btn-save-staff {
+  padding: 12px 32px;
+  background-color: #dc2626;
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-save-staff:hover {
+  background-color: #b91c1c;
+}
+
+@media (max-width: 640px) {
+  .add-staff-form {
+    grid-template-columns: 1fr;
+  }
+  .add-staff-card {
+    padding: 24px;
+  }
+  .add-staff-header {
+    flex-direction: column;
+    gap: 16px;
+  }
 }
