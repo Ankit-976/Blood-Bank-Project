@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Staff Directory | HEMOGLOBIN</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- ═══════════════════════════════════════
+     SIDEBAR
+═══════════════════════════════════════ -->
+    <aside class="sidebar">
+      <!-- Brand -->
+      <div class="sidebar-brand">
+        <h1>HEMOGLOBIN</h1>
+        <p
+          style="
+            font-size: 10px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 4px;
+          "
+        >
+          Central Command
+        </p>
+      </div>
+
+      <!-- Nav Links -->
+      <nav class="sidebar-nav">
+        <a href="dashboard.html">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a href="donors.html">
+          <span class="material-symbols-outlined">group</span>
+          <span class="nav-label">Donors</span>
+        </a>
+        <a href="receivers.html">
+          <span class="material-symbols-outlined">diversity_3</span>
+          <span class="nav-label">Receivers</span>
+        </a>
+        <a href="stock.html">
+          <span class="material-symbols-outlined">inventory_2</span>
+          <span class="nav-label">Stock</span>
+        </a>
+        <a href="staff.html" class="active">
+          <span class="material-symbols-outlined">badge</span>
+          <span class="nav-label">Staff</span>
+        </a>
+        <a href="#">
+          <span class="material-symbols-outlined">list_alt</span>
+          <span class="nav-label">Requests</span>
+        </a>
+        <a href="#">
+          <span class="material-symbols-outlined">analytics</span>
+          <span class="nav-label">Reports</span>
+        </a>
+      </nav>
+
+      <!-- Admin Profile + Logout -->
+      <div
+        style="
+          padding: 24px 32px 0;
+          border-top: 1px solid #1e293b;
+          margin-top: auto;
+        "
+      >
+        <div class="sidebar-admin" style="margin-bottom: 24px">
+          <div
+            style="
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              background: #1e293b;
+              border: 1px solid #334155;
+              overflow: hidden;
+              flex-shrink: 0;
+            "
+          >
+            <img
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBokxf7eYH7xslUCL1z0ha4SQWwRZ2iQNIgBrUNpgwh7f-9KeLtRcNGu69n-KJHbZLeMP4lwOc9jZlbO4I1vwsGDWm2i03Ot0OnQLpyJkaHKtH1gDN8Pp-9MEuvi05A2GwEAo2rFpDplh4uFnKoN76MVYqurtpBKV3hozTcCsSBtRE1bhIeDhm6hz71qJJ0j9lTx3P-XQxaP3QycRiSj-v_4IpiFrtSOw7v1_Gkhbuwgt1WJ3NzsUU6ZDCa1spcgUoEGmaOpoQt2YM"
+              alt="Admin Profile"
+              style="width: 100%; height: 100%; object-fit: cover"
+            />
+          </div>
+          <div>
+            <p class="sidebar-admin-name">Admin Profile</p>
+            <p class="sidebar-admin-role">Super User</p>
+          </div>
+        </div>
+        <a
+          href="index.html"
+          style="
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ef4444;
+            text-decoration: none;
+            font-size: 14px;
+            font-family: &quot;Manrope&quot;, sans-serif;
+            font-weight: 500;
+            transition: color 0.2s;
+          "
+        >
+          <span class="material-symbols-outlined">logout</span>
+          <span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════
+     MAIN CONTENT
+═══════════════════════════════════════ -->
+    <main class="main-content">
+      <!-- Page Header -->
+      <header class="staff-header">
+        <div>
+          <h2>Staff Directory</h2>
+          <p>Manage hospital staff records, roles, and attendance status.</p>
+        </div>
+        <button class="staff-add-btn">
+          <span class="material-symbols-outlined" style="font-size: 20px"
+            >person_add</span
+          >
+          + Add Staff
+        </button>
+      </header>
+
+      <!-- Stats Bento Grid -->
+      <div class="staff-stats-grid">
+        <div class="staff-stat-card accent">
+          <p class="staff-stat-label">Total Staff</p>
+          <div class="staff-stat-row">
+            <span class="staff-stat-value">124</span>
+            <span class="staff-stat-badge-teal">+4 this month</span>
+          </div>
+        </div>
+
+        <div class="staff-stat-card">
+          <p class="staff-stat-label">Active Now</p>
+          <div class="staff-stat-row">
+            <span class="staff-stat-value">86</span>
+            <span class="staff-stat-pulse"></span>
+          </div>
+        </div>
+
+        <div class="staff-stat-card">
+          <p class="staff-stat-label">On Leave</p>
+          <div class="staff-stat-row">
+            <span class="staff-stat-value">12</span>
+            <span
+              class="material-symbols-outlined"
+              style="color: var(--on-surface-variant)"
+              >event_busy</span
+            >
+          </div>
+        </div>
+
+        <div class="staff-stat-card">
+          <p class="staff-stat-label">Open Requests</p>
+          <div class="staff-stat-row">
+            <span class="staff-stat-value">08</span>
+            <span class="staff-stat-urgent">URGENT</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls Bar -->
+      <div class="staff-controls">
+        <div class="staff-search-wrap">
+          <span class="material-symbols-outlined">search</span>
+          <input
+            class="staff-search-input"
+            type="text"
+            placeholder="Search by Staff Name or ID..."
+          />
+        </div>
+        <div class="staff-control-actions">
+          <button class="staff-ctrl-btn">
+            <span class="material-symbols-outlined" style="font-size: 20px"
+              >filter_list</span
+            >
+            Filter
+          </button>
+          <button class="staff-ctrl-btn">
+            <span class="material-symbols-outlined" style="font-size: 20px"
+              >file_download</span
+            >
+            Export
+          </button>
+        </div>
+      </div>
+
+      <!-- Staff Table Card -->
+      <div class="staff-table-card">
+        <div class="staff-table-scroll">
+          <table class="staff-table">
+            <thead>
+              <tr>
+                <th>Staff Name</th>
+                <th>Staff ID</th>
+                <th>Post (Role)</th>
+                <th>D.O.J</th>
+                <th>Status</th>
+                <th class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Row 1 -->
+              <tr>
+                <td>
+                  <div class="staff-cell">
+                    <div class="staff-avatar">
+                      <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDA862Q3O2WxZsShZSmpGTLQtaCaAMt_lw5tmbtOq_XP0-eFUVQmovF4jW95RTBUDLbnW3U5akt6nr3VG9BsV_uxRP7Fhwa3WrDw6HPQz6htIkXr81ckc8hyRh8ElaJmZ-_3M8ZfAOHHv0lSpw8AGMfAvpNx5C7cRwExJnr6sBRRoDuKG4JH3NROSlFQhB-fg_dlfZM6Vn9Df8mS_HjspYQ_JNpnYgn7k8PJTI3fTBR0kE4x0kMJQ49TZgxJZaqD8x7AgYXpISa7A"
+                        alt="Dr. Sarah Jenkins"
+                      />
+                    </div>
+                    <div>
+                      <p class="staff-name">Dr. Sarah Jenkins</p>
+                      <p class="staff-email">sarah.j@hemoglobin.org</p>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="staff-id">STF-88210</span></td>
+                <td>
+                  <span class="role-badge teal">Senior Hematologist</span>
+                </td>
+                <td><span class="staff-date">12 Jan 2021</span></td>
+                <td>
+                  <div class="staff-status">
+                    <span class="staff-status-dot green"></span>
+                    <span class="staff-status-text green">Active</span>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div class="staff-actions">
+                    <button class="staff-action-btn edit">
+                      <span class="material-symbols-outlined">edit</span>
+                    </button>
+                    <button class="staff-action-btn del">
+                      <span class="material-symbols-outlined">delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 2 -->
+              <tr>
+                <td>
+                  <div class="staff-cell">
+                    <div class="staff-avatar">
+                      <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5EfrS4ypTQcEuzV_H2oZRggKsGRki7kmxezeyoOQFUXbmhCwRi4l_-85-5_SiKmeZYkO5_n7Mbgw0COVXUWIky_1KLmT4DsCq6pwHJlYookn25M4-m6LZeIkH4N5sEVhe2jWFfHVIuF5a5PfuETD3MfvH5thOx1u81goMjpiH7xYGG4lEYtyadtL7SzlCOX27OuyWG6vED7Gvw639wiYHyBg01E2ssQIyBGrPRsG41XB2XbCrXLvet4xDZ_RLWMGf3fFkSCS7r6I"
+                        alt="Mark Thompson"
+                      />
+                    </div>
+                    <div>
+                      <p class="staff-name">Mark Thompson</p>
+                      <p class="staff-email">mark.t@hemoglobin.org</p>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="staff-id">STF-88432</span></td>
+                <td><span class="role-badge slate">Blood Bank Tech</span></td>
+                <td><span class="staff-date">05 Mar 2022</span></td>
+                <td>
+                  <div class="staff-status">
+                    <span class="staff-status-dot amber"></span>
+                    <span class="staff-status-text amber">On Leave</span>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div class="staff-actions">
+                    <button class="staff-action-btn edit">
+                      <span class="material-symbols-outlined">edit</span>
+                    </button>
+                    <button class="staff-action-btn del">
+                      <span class="material-symbols-outlined">delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 3 -->
+              <tr>
+                <td>
+                  <div class="staff-cell">
+                    <div class="staff-avatar">
+                      <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6lX4zqrm70uqM2lzE1_G0jOmNGWRYTy5ezzqZ6s6PRHvkEjG-jYnnjK7K-JDYS9DkkTgiX4ELWUcUNr0ued_1Q5vraOAWVyP9V-tuiu9tbqq4xmXH2fir4pVDWd6ahe4-dd6ISqxGArMftCLE9EpKPoz-1UN2uEXX7pQ6JnIbJwzD4P7_x5-T43ssB7npstPh8Umhpi3tiRFjqDNo56RGkAC-6-GnGDWfUWxgCeYKy_W5OwnuI0tNhW1-FmqDshZWeQbfmp72PTY"
+                        alt="Dr. Elena Rodriguez"
+                      />
+                    </div>
+                    <div>
+                      <p class="staff-name">Dr. Elena Rodriguez</p>
+                      <p class="staff-email">elena.r@hemoglobin.org</p>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="staff-id">STF-88109</span></td>
+                <td><span class="role-badge teal">Unit Supervisor</span></td>
+                <td><span class="staff-date">18 Nov 2020</span></td>
+                <td>
+                  <div class="staff-status">
+                    <span class="staff-status-dot green"></span>
+                    <span class="staff-status-text green">Active</span>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div class="staff-actions">
+                    <button class="staff-action-btn edit">
+                      <span class="material-symbols-outlined">edit</span>
+                    </button>
+                    <button class="staff-action-btn del">
+                      <span class="material-symbols-outlined">delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 4 -->
+              <tr>
+                <td>
+                  <div class="staff-cell">
+                    <div class="staff-avatar">
+                      <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDj5WCo6BwVaPj2-DkrCFlLhhGR06U8hs_eMZGm0ybGjUNdbuIWNmCz9bPrU58Cdp5xWRO3-KuZbMcGUQnOKfyMdzKDKN6W0qGZDeTYST4QYHPAjDeaBY4HGG5fYO1bYbpwPlGR7LN_Gu6F1tYrhxVKm5IMhUxDjDD93g9ly90YM8V_kgfcDtz1YrUL_lTEtdII3Vc7sAwTkrpYRCC_JX6zUMydms1EJp4guSOlSRiGHVclPnFqkKqasSkhgBzv56q-iG4lXvThhBM"
+                        alt="James Wilson"
+                      />
+                    </div>
+                    <div>
+                      <p class="staff-name">James Wilson</p>
+                      <p class="staff-email">james.w@hemoglobin.org</p>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="staff-id">STF-88902</span></td>
+                <td>
+                  <span class="role-badge slate">Inventory Specialist</span>
+                </td>
+                <td><span class="staff-date">22 May 2023</span></td>
+                <td>
+                  <div class="staff-status">
+                    <span class="staff-status-dot green"></span>
+                    <span class="staff-status-text green">Active</span>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div class="staff-actions">
+                    <button class="staff-action-btn edit">
+                      <span class="material-symbols-outlined">edit</span>
+                    </button>
+                    <button class="staff-action-btn del">
+                      <span class="material-symbols-outlined">delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="staff-pagination-bar">
+          <p class="staff-pagination-info">
+            Showing <strong>1 to 10</strong> of 124 entries
+          </p>
+          <div class="staff-pagination-btns">
+            <button class="staff-page-btn">
+              <span class="material-symbols-outlined" style="font-size: 16px"
+                >chevron_left</span
+              >
+            </button>
+            <button class="staff-page-btn active">1</button>
+            <button class="staff-page-btn">2</button>
+            <button class="staff-page-btn">3</button>
+            <span class="staff-page-btn ellipsis">...</span>
+            <button class="staff-page-btn">13</button>
+            <button class="staff-page-btn">
+              <span class="material-symbols-outlined" style="font-size: 16px"
+                >chevron_right</span
+              >
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- /staff-table-card -->
+
+      <!-- Footer -->
+      <footer class="page-footer">
+        <p class="footer-copy">
+          © 2024 Hemoglobin Blood Management System. Life-saving efficiency.
+        </p>
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact Support</a>
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>

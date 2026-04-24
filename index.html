@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Admin Login | HEMOGLOBIN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+
+<main class="login-split">
+
+  <!-- Left Side: Dark Red Brand Panel -->
+  <div class="login-panel-left">
+    <div class="login-panel-left-inner">
+
+      <!-- Icon -->
+      <div class="login-icon-wrap">
+        <span class="material-symbols-outlined">water_drop</span>
+      </div>
+
+      <h1>Blood Bank Admin Login</h1>
+      <p>Authorized personnel only. Accessing secure medical database for donor management and emergency supplies.</p>
+
+    </div>
+
+    <!-- Security Info -->
+    <div class="login-security-info">
+      <div class="login-security-row">
+        <span class="login-status-dot"></span>
+        <span class="login-security-label">Systems Secure</span>
+      </div>
+      <div class="login-security-row">
+        <span class="material-symbols-outlined">shield</span>
+        <span class="login-security-label">256-Bit Encryption</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side: Login Form -->
+  <div class="login-panel-right">
+    <div class="login-form-wrap">
+
+      <div class="login-heading">
+        <h2>Welcome Back</h2>
+        <p>Please enter your administrator credentials</p>
+      </div>
+
+      <form class="login-form"  onsubmit="handleSubmit(event)">
+
+        <!-- Administrator Email -->
+        <div class="login-field">
+          <label class="login-label" for="email">Administrator Email</label>
+          <div class="login-input-wrap">
+            <span class="material-symbols-outlined input-icon">alternate_email</span>
+            <input class="login-input" id="email" placeholder="name@institution.com" name="email" type="email" required autocomplete="email"/>
+          </div>
+        </div>
+
+        <!-- Secure Password -->
+        <!-- <div class="login-field">
+          <div class="login-label-row">
+            <label class="login-label" for="password">Secure Password</label>
+            <a class="login-forgot" href="#">Forgot?</a>
+          </div> -->
+          <div class="login-input-wrap">
+            <span class="material-symbols-outlined input-icon">lock</span>
+            <input class="login-input" id="password" placeholder="••••••••••••" name="password" type="password" required autocomplete="new-password"/>
+            <button class="login-toggle-vis" type="button">
+              <span class="material-symbols-outlined">visibility</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button class="login-submit" type="submit">
+          <span>Sign In to Portal</span>
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+
+      </form>
+
+      <div class="login-footer">
+        <p>Need help? <a href="#">Contact System Admin</a></p>
+        <span class="login-demo-hint">Demo: admin / admin123</span>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script>
+  const email = "demobloodbank@email.com"
+  const password = "demopassword123"
+
+  function handleSubmit(e) {
+    e.preventDefault()
+
+    const inputEmail = e.target.email.value;
+    const inputPassword = e.target.password.value;
+
+    if(email == inputEmail && password == inputPassword) {
+      window.location.href = "dashboard.html"
+    } else {
+      alert("Invalid Credentials")
+    }
+
+    e.target.email.value = "";
+    e.target.password.value = "";
+    
+  }
+</script>
+
+</body>
+</html>
