@@ -19,7 +19,10 @@ if (isset($_POST['submit'])) {
     $last_donation_date = $_POST['last_donation_date'];
     $medical_history = $_POST['medical_history'];
     $staff_name = $_POST['staff'];
-    $donation_date = $_POST['donation_date'];
+
+    if(empty($medical_history)){
+        $medical_history = "Nothing";
+    };
 
     $result = mysqli_query($conn, "SELECT id FROM staff WHERE name='$staff_name'");
     $row = mysqli_fetch_assoc($result);
@@ -34,7 +37,7 @@ if (isset($_POST['submit'])) {
     $query = "INSERT INTO donors 
     (aadhaar_no, name, dob, contact, address, blood_group, last_donation_date, medical_history, staff_id, donation_date)
     VALUES
-    ('$aadhaar_no', '$name', '$dob', '$contact', '$address', '$blood_group', '$last_donation_date', '$medical_history', '$staff_id', '$donation_date')";
+    ('$aadhaar_no', '$name', '$dob', '$contact', '$address', '$blood_group', '$last_donation_date', '$medical_history', '$staff_id', CURDATE())";
 
     mysqli_query($conn, $query);
 
@@ -107,10 +110,10 @@ if (isset($_POST['submit'])) {
                     <label for="doj">Last Donation Date</label>
                     <input type="date" id="doj" name="last_donation_date" required>
                 </div>
-                <div class="add-staff-field">
+                <!-- <div class="add-staff-field">
                     <label for="doj">Donation Date</label>
                     <input type="date" id="doj" name="donation_date" required>
-                </div>
+                </div> -->
                 <div class="add-staff-field">
                     <label for="staff">Staff</label>
                     <select id="staff" name="staff" required>
@@ -124,12 +127,12 @@ if (isset($_POST['submit'])) {
                     </select>
                 </div>
                 <div class="add-staff-field">
-                    <label for="address">Address</label>
-                    <textarea name="address" id="address" required></textarea>
+                    <label for="medical_history">Medical History</label>
+                    <input type="text" name="medical_history" id="medical_history" placeholder="Nothing"></input>
                 </div>
                 <div class="add-staff-field">
-                    <label for="medical_history">Medical History</label>
-                    <textarea name="medical_history" id="medical_history" placeholder="Nothing" required></textarea>
+                    <label for="address">Address</label>
+                    <textarea name="address" id="address" required></textarea>
                 </div>
                 <div class="add-staff-actions">
                     <button type="reset" class="btn-reset" name="reset">Reset</button>

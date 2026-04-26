@@ -190,8 +190,8 @@ if (!isset($_SESSION['admin'])) {
                       <?php
                       $bg = $row['blood_group'];
 
-                      $sign = substr($bg, -1);        // last character (+ or -)
-                      $group = substr($bg, 0, -1);    // everything except last
+                      $sign = substr($bg, -1);
+                      $group = substr($bg, 0, -1);
                       ?>
                       <div class="blood-letter"><?php echo strtoupper($group)?></div>
                       <div class="blood-sign"><?php echo $sign ?></div>

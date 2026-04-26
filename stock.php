@@ -318,11 +318,11 @@ if (!isset($_SESSION['admin'])){
               <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 fill="none" stroke="#e5e2e1" stroke-dasharray="100, 100" stroke-width="4"/>
               <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                fill="none" stroke="#b7131a" stroke-dasharray="45, 100" stroke-width="4"/>
+                fill="none" stroke="#b7131a" stroke-dasharray="40, 100" stroke-width="4"/>
               <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                fill="none" stroke="#d93630" stroke-dasharray="25, 100" stroke-dashoffset="-45" stroke-width="4"/>
+                fill="none" stroke="#d93630" stroke-dasharray="2, 100" stroke-dashoffset="-45" stroke-width="4"/>
               <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                fill="none" stroke="#006578" stroke-dasharray="30, 100" stroke-dashoffset="-70" stroke-width="4"/>
+                fill="none" stroke="#006578" stroke-dasharray="3, 100" stroke-dashoffset="-70" stroke-width="4"/>
             </svg>
             <div class="donut-center">
               <span class="donut-total">1.2k</span>
