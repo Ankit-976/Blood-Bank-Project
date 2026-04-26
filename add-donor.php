@@ -41,6 +41,18 @@ if (isset($_POST['submit'])) {
 
     mysqli_query($conn, $query);
 
+    // $units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT "));
+
+    mysqli_query($conn, "UPDATE testingkit 
+    SET
+    units = units -1;
+    ");
+
+    mysqli_query($conn, "UPDATE energykit
+    SET 
+    units = units -1
+    ");
+
     header("Location: donors.php");
     exit();
 }
