@@ -11,7 +11,7 @@ if (!isset($_SESSION['admin'])) {
 if (isset($_POST['submit'])) {
 
   $type = $_POST['type'];
-  $name =  $_POST['name'];
+  $name = $_POST['name'];
   $units = (int) $_POST['units'];
 
   if ($type == "Testing Kit") {
@@ -22,8 +22,6 @@ if (isset($_POST['submit'])) {
 
     mysqli_query($conn, $query);
 
-    header("Location: stock.php");
-    exit();
   } elseif ($type == "Energy Kit") {
     $query = "INSERT INTO energyKit 
             (name, units, lastUpdateAt)
@@ -32,31 +30,30 @@ if (isset($_POST['submit'])) {
 
     mysqli_query($conn, $query);
 
-    header("Location: stock.php");
-    exit();
   } elseif ($type == "Blood Stock") {
     $bg = mysqli_fetch_assoc(mysqli_query($conn, "SELECT blood_group FROM stock WHERE blood_group = '$name'"));
 
     $expiry_date = date("Y-m-d", strtotime("+42 days"));
-    if(!$bg){
-      $query =  "INSERT INTO stock 
-              (blood_group, units, expiry_date)
-              VALUES
-              ('$name', '$units', '$expiry_date')";
-  
+    if (!$bg) {
+      $query = "INSERT INTO stock 
+                (blood_group, units, expiry_date)
+                VALUES
+                ('$name', '$units', '$expiry_date')";
+
       mysqli_query($conn, $query);
-  
-      header("Location: stock.php");
-      exit();
+
+    } else {
+      mysqli_query($conn, "UPDATE stock 
+      SET 
+      units = units + $units
+      -- expiry_date = $expiry_date
+      WHERE blood_group = '$name'
+      ");
     }
 
-    // mysqli_query($conn, "UPDATE stock 
-    // SET 
-    // units = units + $units
-    // WHERE blood_group = $bg['blood_group']
-    // ");
-
   }
+  header("Location: stock.php");
+  exit();
 
 }
 

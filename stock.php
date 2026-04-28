@@ -7,6 +7,22 @@ if (!isset($_SESSION['admin'])) {
   header("Location: index.php");
   exit();
 }
+
+$totalRow = mysqli_fetch_assoc(mysqli_query($conn, "SELECT SUM(units) AS total_units FROM stock;"));
+$total_units = $totalRow['total_units'];
+$result = mysqli_query($conn, "SELECT blood_group, units FROM stock");
+
+$data = [];
+
+while ($row = mysqli_fetch_assoc($result)) {
+  $data[$row['blood_group']] = $row['units'];
+}
+
+$percentage = [];
+
+foreach ($data as $group => $units) {
+  $percentage[$group] = $total_units > 0 ? ($units / $total_units) * 100 : 0;
+}
 ?>
 
 <!DOCTYPE html>
@@ -135,10 +151,19 @@ if (!isset($_SESSION['admin'])) {
 
       <!-- Alert Banner -->
       <div class="alert-banner">
+        <?php 
+          $result = mysqli_query($conn, "SELECT blood_group FROM stock WHERE units < 10");
+         $criticalGroups = [];
+
+          while ($row = mysqli_fetch_assoc($result)) {
+              $criticalGroups[] = $row['blood_group'];
+          } 
+          $criticalGroupsList = ucwords(implode(', ', $criticalGroups));
+        ?>
         <span class="material-symbols-outlined alert-icon">warning</span>
         <div class="alert-body">
           <h4 class="alert-title">Critical Low Stock Warning</h4>
-          <p class="alert-text">Blood groups <strong><u>O-</u></strong> and <strong><u>AB-</u></strong> have fallen
+          <p class="alert-text">Blood groups <strong><u><?php echo ucwords($criticalGroupsList);?></u></strong> have fallen
             below the mandatory reserve threshold of 10 units.</p>
         </div>
         <button class="btn-danger">Immediate Action</button>
@@ -152,7 +177,11 @@ if (!isset($_SESSION['admin'])) {
             <span class="stat-label">Live units</span>
           </div>
           <div>
-            <p class="stat-value">1,284</p>
+            <?php
+            $result = mysqli_query($conn, "SELECT SUM(units) AS total_units FROM stock;");
+            $row = mysqli_fetch_assoc($result);
+            ?>
+            <p class="stat-value"><?php echo $row['total_units'] ?></p>
             <p class="stat-desc">Total Blood Units Available</p>
           </div>
         </div>
@@ -229,11 +258,16 @@ if (!isset($_SESSION['admin'])) {
                   </td>
                   <td class="inv-cell">
                     <div class="progress-track">
-                      <div class="progress-fill fill-primary" style="width:75%;"></div>
+                      <div class="progress-fill fill-primary" style="width:<?php echo $percentage['a+']; ?>%;"></div>
                     </div>
                   </td>
-                  <td class="inv-cell inv-units">342 Units</td>
-                  <td class="inv-cell"><span class="status-pill status-adequate">Adequate</span></td>
+                  <?php
+                  $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'a+'"))
+                    ?>
+                  <td class="inv-cell inv-units"><?php echo $blood_units['units'] ?> Units</td>
+                  <td class="inv-cell"><span class="status-pill <?php echo  $blood_units['units']>50? 'status-adequate' : ($blood_units['units']>10? 'status-low' : 'status-critical')?>">
+                     <?php echo  $blood_units['units']>50? 'Adequate' : ($blood_units['units']>10? 'Low Stock' : 'Critical')?>
+                  </span></td>
                   <td class="inv-cell text-right">
                     <button class="inv-action-btn"><span class="material-symbols-outlined">more_vert</span></button>
                   </td>
@@ -247,11 +281,17 @@ if (!isset($_SESSION['admin'])) {
                   </td>
                   <td class="inv-cell">
                     <div class="progress-track">
-                      <div class="progress-fill fill-error" style="width:12%;"></div>
+                      <div class="progress-fill fill-error" style="width:<?php echo $percentage['o-']; ?>%;"></div>
                     </div>
                   </td>
-                  <td class="inv-cell inv-units inv-units-error">08 Units</td>
-                  <td class="inv-cell"><span class="status-pill status-critical">Critical</span></td>
+                  <?php
+                  $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'o-'"))
+                    ?>
+                  <td class="inv-cell inv-units"><?php echo $blood_units['units'] ?> Units</td>
+                  <!-- <td class="inv-cell"><span class="status-pill status-critical">Critical</span></td> -->
+                  <td class="inv-cell"><span class="status-pill <?php echo  $blood_units['units']>50? 'status-adequate' : ($blood_units['units']>10? 'status-low' : 'status-critical')?>">
+                     <?php echo  $blood_units['units']>50? 'Adequate' : ($blood_units['units']>10? 'Low Stock' : 'Critical')?>
+                  </span></td>
                   <td class="inv-cell text-right">
                     <button class="inv-action-btn"><span class="material-symbols-outlined">more_vert</span></button>
                   </td>
@@ -265,11 +305,16 @@ if (!isset($_SESSION['admin'])) {
                   </td>
                   <td class="inv-cell">
                     <div class="progress-track">
-                      <div class="progress-fill fill-primary" style="width:55%;"></div>
+                      <div class="progress-fill fill-primary" style="width:<?php echo $percentage['b+']; ?>%;"></div>
                     </div>
                   </td>
-                  <td class="inv-cell inv-units">210 Units</td>
-                  <td class="inv-cell"><span class="status-pill status-adequate">Adequate</span></td>
+                  <?php
+                  $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'b+'"))
+                    ?>
+                  <td class="inv-cell inv-units"><?php echo $blood_units['units'] ?> Units</td>
+                  <td class="inv-cell"><span class="status-pill <?php echo  $blood_units['units']>50? 'status-adequate' : ($blood_units['units']>10? 'status-low' : 'status-critical')?>">
+                     <?php echo  $blood_units['units']>50? 'Adequate' : ($blood_units['units']>10? 'Low Stock' : 'Critical')?>
+                  </span></td>
                   <td class="inv-cell text-right">
                     <button class="inv-action-btn"><span class="material-symbols-outlined">more_vert</span></button>
                   </td>
@@ -283,11 +328,16 @@ if (!isset($_SESSION['admin'])) {
                   </td>
                   <td class="inv-cell">
                     <div class="progress-track">
-                      <div class="progress-fill fill-yellow" style="width:25%;"></div>
+                      <div class="progress-fill fill-yellow" style="width:<?php echo $percentage['ab+']; ?>%;"></div>
                     </div>
                   </td>
-                  <td class="inv-cell inv-units">45 Units</td>
-                  <td class="inv-cell"><span class="status-pill status-low">Low Stock</span></td>
+                  <?php
+                  $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'ab+'"))
+                    ?>
+                  <td class="inv-cell inv-units"><?php echo $blood_units['units'] ?> Units</td>
+                  <td class="inv-cell"><span class="status-pill <?php echo  $blood_units['units']>50? 'status-adequate' : ($blood_units['units']>10? 'status-low' : 'status-critical')?>">
+                     <?php echo  $blood_units['units']>50? 'Adequate' : ($blood_units['units']>10? 'Low Stock' : 'Critical')?>
+                  </span></td>
                   <td class="inv-cell text-right">
                     <button class="inv-action-btn"><span class="material-symbols-outlined">more_vert</span></button>
                   </td>
