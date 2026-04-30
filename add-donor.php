@@ -41,7 +41,11 @@ if (isset($_POST['submit'])) {
 
     mysqli_query($conn, $query);
 
-    // $units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT "));
+    mysqli_query($conn,"UPDATE stock
+    SET
+    units = units +1
+    WHERE blood_group = '$blood_group';
+    ");
 
     mysqli_query($conn, "UPDATE testingkit 
     SET

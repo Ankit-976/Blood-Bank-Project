@@ -550,7 +550,7 @@ a {
 
 .bar-track {
   width: 100%;
-  background-color: #f1f5f9; /* slate-100 */
+  background-color: #f1f5f9;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   position: relative;
   height: 80%;
@@ -2971,6 +2971,10 @@ td {
   background-color: rgba(186, 26, 26, 0.04);
 }
 
+.critical-hidden {
+  display: none;
+}
+
 .inv-row-low {
   background-color: #fefce8;
 }
@@ -3025,7 +3029,7 @@ td {
   border-radius: 9999px;
 }
 
-.fill-primary  { background-color: var(--primary); }
+.fill-primary  { background-color: rgb(5, 178, 5); }
 .fill-error    { background-color: var(--error); }
 .fill-yellow   { background-color: #eab308; }
 

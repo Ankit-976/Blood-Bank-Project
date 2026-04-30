@@ -54,14 +54,14 @@ if (!isset($_SESSION['admin'])){
       <span class="material-symbols-outlined">badge</span>
       <span class="nav-label">Staff</span>
     </a>
-    <a href="#">
+    <!-- <a href="#">
       <span class="material-symbols-outlined">list_alt</span>
       <span class="nav-label">Requests</span>
     </a>
     <a href="#">
       <span class="material-symbols-outlined">analytics</span>
       <span class="nav-label">Reports</span>
-    </a>
+    </a> -->
   </nav>
 
   <!-- Admin Profile + Logout -->

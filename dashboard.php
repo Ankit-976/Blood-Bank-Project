@@ -6,6 +6,9 @@ if (!isset($_SESSION['admin'])){
   header("Location: index.php");
   exit();
 }
+
+$totalRow = mysqli_fetch_assoc(mysqli_query($conn, "SELECT SUM(units) AS total_units FROM stock;"));
+$total_units = $totalRow['total_units'];
 ?>
 
 <!doctype html>
@@ -61,14 +64,14 @@ if (!isset($_SESSION['admin'])){
           <span class="material-symbols-outlined">badge</span>
           <span class="nav-label">Staff</span>
         </a>
-        <a href="#">
+        <!-- <a href="#">
           <span class="material-symbols-outlined">list_alt</span>
           <span class="nav-label">Requests</span>
         </a>
         <a href="#">
           <span class="material-symbols-outlined">analytics</span>
           <span class="nav-label">Reports</span>
-        </a>
+        </a> -->
       </nav>
       <div
         style="
@@ -177,7 +180,6 @@ if (!isset($_SESSION['admin'])){
             <div class="stat-icon icon-tertiary">
               <span class="material-symbols-outlined">medical_services</span>
             </div>
-            <span class="stat-badge badge-slate">Static</span>
           </div>
           <div class="stat-bottom">
             <p class="font-label-caps text-on-surface-variant stat-label">
@@ -197,18 +199,17 @@ if (!isset($_SESSION['admin'])){
                 >bloodtype</span
               >
             </div>
-            <span class="stat-badge badge-red">-3%</span>
           </div>
           <div class="stat-bottom">
             <p class="font-label-caps text-on-surface-variant stat-label">
               Available Units
             </p>
-            <p class="stat-value">412</p>
+            <p class="stat-value"><?php echo $total_units ?></p>
           </div>
         </div>
 
         <!-- Pending Requests -->
-        <div class="glass-card stat-card">
+        <!-- <div class="glass-card stat-card">
           <div class="stat-card-top">
             <div class="stat-icon icon-amber">
               <span class="material-symbols-outlined">priority_high</span>
@@ -221,7 +222,7 @@ if (!isset($_SESSION['admin'])){
             </p>
             <p class="stat-value">24</p>
           </div>
-        </div>
+        </div> -->
 
         <!-- Staff Members -->
         <div class="glass-card stat-card">

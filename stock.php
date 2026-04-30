@@ -23,6 +23,28 @@ $percentage = [];
 foreach ($data as $group => $units) {
   $percentage[$group] = $total_units > 0 ? ($units / $total_units) * 100 : 0;
 }
+
+$result = mysqli_query($conn, "
+SELECT 
+  SUM(CASE WHEN blood_group IN ('A+', 'A-') THEN units ELSE 0 END) AS A_total,
+  SUM(CASE WHEN blood_group IN ('B+', 'B-') THEN units ELSE 0 END) AS B_total,
+  SUM(CASE WHEN blood_group IN ('AB+', 'AB-', 'O+', 'O-') THEN units ELSE 0 END) AS ABO_total
+FROM stock
+");
+
+$data = mysqli_fetch_assoc($result);
+
+$A = $data['A_total'] ?? 0;
+$B = $data['B_total'] ?? 0;
+$ABO = $data['ABO_total'] ?? 0;
+
+$result = mysqli_query($conn, "SELECT blood_group FROM stock WHERE units < 10");
+$criticalGroups = [];
+
+while ($row = mysqli_fetch_assoc($result)) {
+  $criticalGroups[] = $row['blood_group'];
+}
+$criticalGroupsList = ucwords(implode(', ', $criticalGroups));
 ?>
 
 <!DOCTYPE html>
@@ -71,14 +93,14 @@ foreach ($data as $group => $units) {
           <span class="material-symbols-outlined">badge</span>
           <span class="nav-label">Staff</span>
         </a>
-        <a href="#">
+        <!-- <a href="#">
           <span class="material-symbols-outlined">list_alt</span>
           <span class="nav-label">Requests</span>
         </a>
         <a href="#">
           <span class="material-symbols-outlined">analytics</span>
           <span class="nav-label">Reports</span>
-        </a>
+        </a> -->
       </nav>
       <div style="
           padding: 24px 32px 0;
@@ -150,20 +172,12 @@ foreach ($data as $group => $units) {
       </div>
 
       <!-- Alert Banner -->
-      <div class="alert-banner">
-        <?php 
-          $result = mysqli_query($conn, "SELECT blood_group FROM stock WHERE units < 10");
-         $criticalGroups = [];
-
-          while ($row = mysqli_fetch_assoc($result)) {
-              $criticalGroups[] = $row['blood_group'];
-          } 
-          $criticalGroupsList = ucwords(implode(', ', $criticalGroups));
-        ?>
+      <div class="alert-banner <?php echo count($criticalGroups)>0? '' : 'critical-hidden'?>">
         <span class="material-symbols-outlined alert-icon">warning</span>
         <div class="alert-body">
           <h4 class="alert-title">Critical Low Stock Warning</h4>
-          <p class="alert-text">Blood groups <strong><u><?php echo ucwords($criticalGroupsList);?></u></strong> have fallen
+          <p class="alert-text">Blood groups <strong><u><?php echo ucwords($criticalGroupsList); ?></u></strong> have
+            fallen
             below the mandatory reserve threshold of 10 units.</p>
         </div>
         <button class="btn-danger">Immediate Action</button>
@@ -219,7 +233,7 @@ foreach ($data as $group => $units) {
             <span class="stat-label">Urgent</span>
           </div>
           <div>
-            <p class="stat-value stat-value-error">02</p>
+            <p class="stat-value stat-value-error"><?php echo count($criticalGroups) ?></p>
             <p class="stat-desc">Critical Type Shortages</p>
           </div>
         </div>
@@ -249,7 +263,11 @@ foreach ($data as $group => $units) {
                 </tr>
               </thead>
               <tbody>
-                <tr class="inv-row">
+                <?php
+                $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'A+'"));
+                $Aunits = (int) $blood_units['units'];
+                ?>
+                <tr class="inv-row <?php echo $Aunits > 50 ? '' : ($Aunits > 10 ? 'inv-row-low' : 'inv-row-critical') ?>">
                   <td class="inv-cell">
                     <div class="inv-row-info">
                       <div class="blood-badge badge-primary">A+</div>
@@ -258,21 +276,25 @@ foreach ($data as $group => $units) {
                   </td>
                   <td class="inv-cell">
                     <div class="progress-track">
-                      <div class="progress-fill fill-primary" style="width:<?php echo $percentage['a+']; ?>%;"></div>
+                      <div
+                        class="progress-fill <?php echo $Aunits > 50 ? 'fill-primary' : ($Aunits > 10 ? 'fill-yellow' : 'fill-yellow') ?>"
+                        style="width:<?php echo $percentage['A+']; ?>%;"></div>
                     </div>
                   </td>
-                  <?php
-                  $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'a+'"))
-                    ?>
-                  <td class="inv-cell inv-units"><?php echo $blood_units['units'] ?> Units</td>
-                  <td class="inv-cell"><span class="status-pill <?php echo  $blood_units['units']>50? 'status-adequate' : ($blood_units['units']>10? 'status-low' : 'status-critical')?>">
-                     <?php echo  $blood_units['units']>50? 'Adequate' : ($blood_units['units']>10? 'Low Stock' : 'Critical')?>
-                  </span></td>
+                  <td class="inv-cell inv-units"><?php echo $Aunits ?> Units</td>
+                  <td class="inv-cell"><span
+                      class="status-pill <?php echo $Aunits > 50 ? 'status-adequate' : ($Aunits > 10 ? 'status-low' : 'status-critical') ?>">
+                      <?php echo $Aunits > 50 ? 'Adequate' : ($Aunits > 10 ? 'Low Stock' : 'Critical') ?>
+                    </span></td>
                   <td class="inv-cell text-right">
                     <button class="inv-action-btn"><span class="material-symbols-outlined">more_vert</span></button>
                   </td>
                 </tr>
-                <tr class="inv-row inv-row-critical">
+                <?php
+                $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'O-'"));
+                $Ounits = (int) $blood_units['units'];
+                ?>
+                <tr class="inv-row <?php echo $Ounits > 50 ? '' : ($Ounits > 10 ? 'inv-row-low' : 'inv-row-critical') ?>">
                   <td class="inv-cell">
                     <div class="inv-row-info">
                       <div class="blood-badge badge-secondary">O-</div>
@@ -281,22 +303,25 @@ foreach ($data as $group => $units) {
                   </td>
                   <td class="inv-cell">
                     <div class="progress-track">
-                      <div class="progress-fill fill-error" style="width:<?php echo $percentage['o-']; ?>%;"></div>
+                      <div class="progress-fill   <?php echo $Ounits > 50 ? 'fill-primary' : ($Ounits
+                        > 10 ? 'fill-yellow' : 'fill-error') ?>" style="width:<?php echo $percentage['O-']; ?>%;"></div>
                     </div>
                   </td>
-                  <?php
-                  $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'o-'"))
-                    ?>
                   <td class="inv-cell inv-units"><?php echo $blood_units['units'] ?> Units</td>
                   <!-- <td class="inv-cell"><span class="status-pill status-critical">Critical</span></td> -->
-                  <td class="inv-cell"><span class="status-pill <?php echo  $blood_units['units']>50? 'status-adequate' : ($blood_units['units']>10? 'status-low' : 'status-critical')?>">
-                     <?php echo  $blood_units['units']>50? 'Adequate' : ($blood_units['units']>10? 'Low Stock' : 'Critical')?>
-                  </span></td>
+                  <td class="inv-cell"><span
+                      class="status-pill <?php echo $Ounits > 50 ? 'status-adequate' : ($Ounits > 10 ? 'status-low' : 'status-critical') ?>">
+                      <?php echo $Ounits > 50 ? 'Adequate' : ($Ounits > 10 ? 'Low Stock' : 'Critical') ?>
+                    </span></td>
                   <td class="inv-cell text-right">
                     <button class="inv-action-btn"><span class="material-symbols-outlined">more_vert</span></button>
                   </td>
                 </tr>
-                <tr class="inv-row">
+                <?php
+                $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'B+'"));
+                $Bunits = (int) $blood_units['units'];
+                ?>
+                <tr class="inv-row <?php echo $Bunits > 50 ? '' : ($Bunits > 10 ? 'inv-row-low' : 'inv-row-critical') ?>">
                   <td class="inv-cell">
                     <div class="inv-row-info">
                       <div class="blood-badge badge-primary">B+</div>
@@ -305,21 +330,50 @@ foreach ($data as $group => $units) {
                   </td>
                   <td class="inv-cell">
                     <div class="progress-track">
-                      <div class="progress-fill fill-primary" style="width:<?php echo $percentage['b+']; ?>%;"></div>
+                      <div class="progress-fill   <?php echo $Bunits > 50 ? 'fill-primary' : ($Bunits
+                        > 10 ? 'fill-yellow' : 'fill-error') ?>" style="width:<?php echo $percentage['B+']; ?>%;"></div>
                     </div>
                   </td>
-                  <?php
-                  $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'b+'"))
-                    ?>
-                  <td class="inv-cell inv-units"><?php echo $blood_units['units'] ?> Units</td>
-                  <td class="inv-cell"><span class="status-pill <?php echo  $blood_units['units']>50? 'status-adequate' : ($blood_units['units']>10? 'status-low' : 'status-critical')?>">
-                     <?php echo  $blood_units['units']>50? 'Adequate' : ($blood_units['units']>10? 'Low Stock' : 'Critical')?>
-                  </span></td>
+                  <td class="inv-cell inv-units"><?php echo $Bunits ?> Units</td>
+                  <td class="inv-cell"><span
+                      class="status-pill <?php echo $Bunits > 50 ? 'status-adequate' : ($Bunits > 10 ? 'status-low' : 'status-critical') ?>">
+                      <?php echo $Bunits > 50 ? 'Adequate' : ($Bunits > 10 ? 'Low Stock' : 'Critical') ?>
+                    </span></td>
                   <td class="inv-cell text-right">
                     <button class="inv-action-btn"><span class="material-symbols-outlined">more_vert</span></button>
                   </td>
                 </tr>
-                <tr class="inv-row inv-row-low">
+                <?php
+                $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'A-'"));
+                $A_units = (int) $blood_units['units'];
+                ?>
+                <tr class="inv-row <?php echo $A_units > 50 ? '' : ($A_units > 10 ? 'inv-row-low' : 'inv-row-critical') ?>">
+                  <td class="inv-cell">
+                    <div class="inv-row-info">
+                      <div class="blood-badge badge-primary">A-</div>
+                      <span class="inv-group-name">Alpha Negative</span>
+                    </div>
+                  </td>
+                  <td class="inv-cell">
+                    <div class="progress-track">
+                      <div class="progress-fill  <?php echo $A_units > 50 ? 'fill-primary' : ($A_units
+                        > 10 ? 'fill-yellow' : 'fill-error') ?>" style="width:<?php echo $percentage['A-']; ?>%;"></div>
+                    </div>
+                  </td>
+                  <td class="inv-cell inv-units"><?php echo $A_units ?> Units</td>
+                  <td class="inv-cell"><span
+                      class="status-pill <?php echo $A_units > 50 ? 'status-adequate' : ($A_units > 10 ? 'status-low' : 'status-critical') ?>">
+                      <?php echo $A_units > 50 ? 'Adequate' : ($A_units > 10 ? 'Low Stock' : 'Critical') ?>
+                    </span></td>
+                  <td class="inv-cell text-right">
+                    <button class="inv-action-btn"><span class="material-symbols-outlined">more_vert</span></button>
+                  </td>
+                </tr>
+                <?php
+                $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'AB+'"));
+                $ABunits = (int) $blood_units['units'];
+                ?>
+                <tr class="inv-row <?php echo $ABunits > 50 ? '' : ($ABunits > 10 ? 'inv-row-low' : 'inv-row-critical') ?>">
                   <td class="inv-cell">
                     <div class="inv-row-info">
                       <div class="blood-badge badge-primary">AB+</div>
@@ -328,16 +382,93 @@ foreach ($data as $group => $units) {
                   </td>
                   <td class="inv-cell">
                     <div class="progress-track">
-                      <div class="progress-fill fill-yellow" style="width:<?php echo $percentage['ab+']; ?>%;"></div>
+                      <div class="progress-fill  <?php echo $ABunits > 50 ? 'fill-primary' : ($ABunits
+                        > 10 ? 'fill-yellow' : 'fill-error') ?>" style="width:<?php echo $percentage['AB+']; ?>%;"></div>
                     </div>
                   </td>
-                  <?php
-                  $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'ab+'"))
-                    ?>
-                  <td class="inv-cell inv-units"><?php echo $blood_units['units'] ?> Units</td>
-                  <td class="inv-cell"><span class="status-pill <?php echo  $blood_units['units']>50? 'status-adequate' : ($blood_units['units']>10? 'status-low' : 'status-critical')?>">
-                     <?php echo  $blood_units['units']>50? 'Adequate' : ($blood_units['units']>10? 'Low Stock' : 'Critical')?>
-                  </span></td>
+                  <td class="inv-cell inv-units"><?php echo $ABunits ?> Units</td>
+                  <td class="inv-cell"><span
+                      class="status-pill <?php echo $ABunits > 50 ? 'status-adequate' : ($ABunits > 10 ? 'status-low' : 'status-critical') ?>">
+                      <?php echo $ABunits > 50 ? 'Adequate' : ($ABunits > 10 ? 'Low Stock' : 'Critical') ?>
+                    </span></td>
+                  <td class="inv-cell text-right">
+                    <button class="inv-action-btn"><span class="material-symbols-outlined">more_vert</span></button>
+                  </td>
+                </tr>
+                <?php
+                $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'B-'"));
+                $B_units = (int) $blood_units['units'];
+                ?>
+                <tr class="inv-row <?php echo $B_units > 50 ? '' : ($B_units > 10 ? 'inv-row-low' : 'inv-row-critical') ?>">
+                  <td class="inv-cell">
+                    <div class="inv-row-info">
+                      <div class="blood-badge badge-primary">B-</div>
+                      <span class="inv-group-name">Beta Negative</span>
+                    </div>
+                  </td>
+                  <td class="inv-cell">
+                    <div class="progress-track">
+                      <div class="progress-fill  <?php echo $B_units > 50 ? 'fill-primary' : ($B_units
+                        > 10 ? 'fill-yellow' : 'fill-error') ?>" style="width:<?php echo $percentage['B-']; ?>%;"></div>
+                    </div>
+                  </td>
+                  <td class="inv-cell inv-units"><?php echo $B_units ?> Units</td>
+                  <td class="inv-cell"><span
+                      class="status-pill <?php echo $B_units > 50 ? 'status-adequate' : ($B_units > 10 ? 'status-low' : 'status-critical') ?>">
+                      <?php echo $B_units > 50 ? 'Adequate' : ($B_units > 10 ? 'Low Stock' : 'Critical') ?>
+                    </span></td>
+                  <td class="inv-cell text-right">
+                    <button class="inv-action-btn"><span class="material-symbols-outlined">more_vert</span></button>
+                  </td>
+                </tr>
+                <?php
+                $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'AB-'"));
+                $AB_units = (int) $blood_units['units'];
+                ?>
+                <tr class="inv-row <?php echo $AB_units > 50 ? '' : ($AB_units > 10 ? 'inv-row-low' : 'inv-row-critical') ?>">
+                  <td class="inv-cell">
+                    <div class="inv-row-info">
+                      <div class="blood-badge badge-primary">AB-</div>
+                      <span class="inv-group-name">AB Negative</span>
+                    </div>
+                  </td>
+                  <td class="inv-cell">
+                    <div class="progress-track">
+                      <div class="progress-fill  <?php echo $AB_units > 50 ? 'fill-primary' : ($AB_units
+                        > 10 ? 'fill-yellow' : 'fill-error') ?>" style="width:<?php echo $percentage['AB-']; ?>%;"></div>
+                    </div>
+                  </td>
+                  <td class="inv-cell inv-units"><?php echo $AB_units ?> Units</td>
+                  <td class="inv-cell"><span
+                      class="status-pill <?php echo $AB_units > 50 ? 'status-adequate' : ($AB_units > 10 ? 'status-low' : 'status-critical') ?>">
+                      <?php echo $AB_units > 50 ? 'Adequate' : ($AB_units > 10 ? 'Low Stock' : 'Critical') ?>
+                    </span></td>
+                  <td class="inv-cell text-right">
+                    <button class="inv-action-btn"><span class="material-symbols-outlined">more_vert</span></button>
+                  </td>
+                </tr>
+                <?php
+                $blood_units = mysqli_fetch_assoc(mysqli_query($conn, "SELECT units FROM stock WHERE blood_group = 'O+'"));
+                $O_units = (int) $blood_units['units'];
+                ?>
+                <tr class="inv-row <?php echo $O_units > 50 ? '' : ($O_units > 10 ? 'inv-row-low' : 'inv-row-critical') ?>">
+                  <td class="inv-cell">
+                    <div class="inv-row-info">
+                      <div class="blood-badge badge-primary">O+</div>
+                      <span class="inv-group-name">Universal Positive</span>
+                    </div>
+                  </td>
+                  <td class="inv-cell">
+                    <div class="progress-track">
+                      <div class="progress-fill  <?php echo $O_units > 50 ? 'fill-primary' : ($O_units
+                        > 10 ? 'fill-yellow' : 'fill-error') ?>" style="width:<?php echo $percentage['O+']; ?>%;"></div>
+                    </div>
+                  </td>
+                  <td class="inv-cell inv-units"><?php echo $O_units ?> Units</td>
+                  <td class="inv-cell"><span
+                      class="status-pill <?php echo $O_units > 50 ? 'status-adequate' : ($O_units > 10 ? 'status-low' : 'status-critical') ?>">
+                      <?php echo $O_units > 50 ? 'Adequate' : ($O_units > 10 ? 'Low Stock' : 'Critical') ?>
+                    </span></td>
                   <td class="inv-cell text-right">
                     <button class="inv-action-btn"><span class="material-symbols-outlined">more_vert</span></button>
                   </td>
@@ -345,9 +476,9 @@ foreach ($data as $group => $units) {
               </tbody>
             </table>
           </div>
-          <div class="stock-table-footer">
+          <!-- <div class="stock-table-footer">
             <button class="view-all-btn">View All Blood Groups</button>
-          </div>
+          </div> -->
         </div>
 
         <!-- Analytics Sidebar -->
@@ -355,20 +486,28 @@ foreach ($data as $group => $units) {
 
           <!-- Donut Chart -->
           <div class="glass-card analytics-card">
+            <?php
+            $A_per = $total_units > 0 ? round(($A / $total_units) * 100) : 0;
+            $B_per = $total_units > 0 ? round(($B / $total_units) * 100) : 0;
+            $ABO_per = $total_units > 0 ? round(($ABO / $total_units) * 100) : 0;
+
+            ?>
             <h3 class="analytics-title">Stock Distribution</h3>
             <div class="donut-wrap">
               <svg class="donut-svg" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
                   stroke="#e5e2e1" stroke-dasharray="100, 100" stroke-width="4" />
                 <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
-                  stroke="#b7131a" stroke-dasharray="40, 100" stroke-width="4" />
+                  stroke="#b7131a" stroke-dasharray="<?php echo $A_per; ?>, 100" stroke-width="4" />
                 <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
-                  stroke="#d93630" stroke-dasharray="2, 100" stroke-dashoffset="-45" stroke-width="4" />
+                  stroke="#d93630" stroke-dasharray="<?php echo $B_per; ?>, 100"
+                  stroke-dashoffset="-<?php echo $A_per; ?>" stroke-dashoffset="-45" stroke-width="4" />
                 <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
-                  stroke="#006578" stroke-dasharray="3, 100" stroke-dashoffset="-70" stroke-width="4" />
+                  stroke="#006578" stroke-dasharray="<?php echo $ABO_per; ?>, 100"
+                  stroke-dashoffset="-<?php echo $A_per + $B_per; ?>" stroke-dashoffset="-70" stroke-width="4" />
               </svg>
               <div class="donut-center">
-                <span class="donut-total">1.2k</span>
+                <span class="donut-total"><?php echo $total_units; ?></span>
                 <span class="donut-label">Units</span>
               </div>
             </div>
@@ -378,27 +517,27 @@ foreach ($data as $group => $units) {
                   <div class="legend-dot legend-dot-primary"></div>
                   <span>Type A Group</span>
                 </div>
-                <span class="legend-pct">45%</span>
+                <span class="legend-pct"><?php echo $A_per; ?>%</span>
               </div>
               <div class="legend-row">
                 <div class="legend-left">
                   <div class="legend-dot legend-dot-secondary"></div>
                   <span>Type B Group</span>
                 </div>
-                <span class="legend-pct">25%</span>
+                <span class="legend-pct"><?php echo $B_per; ?>%</span>
               </div>
               <div class="legend-row">
                 <div class="legend-left">
                   <div class="legend-dot legend-dot-tertiary"></div>
                   <span>Type AB &amp; O</span>
                 </div>
-                <span class="legend-pct">30%</span>
+                <span class="legend-pct"><?php echo $ABO_per; ?>%</span>
               </div>
             </div>
           </div>
 
           <!-- Report Card -->
-          <div class="glass-card report-card">
+          <!-- <div class="glass-card report-card">
             <div class="report-card-bg-icon">
               <span class="material-symbols-outlined">clinical_notes</span>
             </div>
@@ -408,7 +547,7 @@ foreach ($data as $group => $units) {
               <span class="material-symbols-outlined">download</span>
               Download Report
             </button>
-          </div>
+          </div> -->
 
         </div>
       </div>
