@@ -43,10 +43,11 @@ if(isset($_POST['submit'])){
 
       <!-- Icon -->
       <div class="login-icon-wrap">
-        <span class="material-symbols-outlined">water_drop</span>
+        <!-- <span class="material-symbols-outlined">water_drop</span> -->
+         <img src="logo.png" alt="Logo" height="160">
       </div>
 
-      <h1>Blood Bank Admin Login</h1>
+      <h1>Admin Login</h1>
       <p>Authorized personnel only. Accessing secure medical database for donor management and emergency supplies.</p>
 
     </div>
@@ -83,13 +84,6 @@ if(isset($_POST['submit'])){
             <input class="login-input" id="email" placeholder="name@institution.com" name="email" type="email" required autocomplete="email"/>
           </div>
         </div>
-
-        <!-- Secure Password -->
-        <!-- <div class="login-field">
-          <div class="login-label-row">
-            <label class="login-label" for="password">Secure Password</label>
-            <a class="login-forgot" href="#">Forgot?</a>
-          </div> -->
           <div class="login-input-wrap">
             <span class="material-symbols-outlined input-icon">lock</span>
             <input class="login-input" id="password" placeholder="••••••••••••" name="password" type="password" required autocomplete="new-password"/>
@@ -116,28 +110,6 @@ if(isset($_POST['submit'])){
   </div>
 
 </main>
-
-<!-- <script>
-  const email = "demobloodbank@email.com"
-  const password = "demopassword123"
-
-  function handleSubmit(e) {
-    e.preventDefault()
-
-    const inputEmail = e.target.email.value;
-    const inputPassword = e.target.password.value;
-
-    if(email == inputEmail && password == inputPassword) {
-      window.location.href = "dashboard.html"
-    } else {
-      alert("Invalid Credentials")
-    }
-
-    e.target.email.value = "";
-    e.target.password.value = "";
-    
-  }
-</script> -->
 
 </body>
 </html>

@@ -10,15 +10,12 @@ if (!isset($_SESSION['admin'])) {
 
 if (isset($_GET["update"])) {
     $id = $_GET["update"];
+    $result = mysqli_query($conn, "SELECT * FROM stock WHERE id= '$id'");
 
-    if ($id) {
-        $result = mysqli_query($conn, "SELECT * FROM stock WHERE id= '$id'");
+    $row = mysqli_fetch_array($result);
 
-        $row = mysqli_fetch_array($result);
-
-        $name = $row["blood_group"];
-        $units = $row["units"];
-    }
+    $name = $row["blood_group"];
+    $units = $row["units"];
 }
 
 if (isset($_POST["submit"])) {

@@ -25,23 +25,22 @@ if (!isset($_SESSION['admin'])) {
 
 <body class="mesh-bg">
   <aside class="sidebar">
-    <!-- Brand -->
     <div class="sidebar-brand">
-      <h1>HEMOGLOBIN</h1>
-      <p class="font-label-caps text-on-surface-variant" style="
-            font-size: 11px;
-            color: #64748b;
-            margin-top: 4px;
-            letter-spacing: 0.1em;
-          ">
-        Central Command
-      </p>
+      <h1><span id="life">Life </span><span id="drop">Drop</span></h1>
+      <div class="sidebar-admin">
+        <div class="sidebar-admin-avatar">
+          <span class="material-symbols-outlined">shield_person</span>
+        </div>
+        <div>
+          <p class="sidebar-admin-name">Admin Panel</p>
+          <p class="sidebar-admin-role">Central Command</p>
+        </div>
+      </div>
     </div>
 
-    <!-- Nav Links -->
-    <nav class="sidebar-nav flex-1">
+    <nav class="sidebar-nav">
       <a href="dashboard.php">
-        <span class="material-symbols-outlined">dashboard</span>
+        <span class="material-symbols-outlined active-pill">dashboard</span>
         <span class="nav-label">Dashboard</span>
       </a>
       <a href="donors.php" class="active">
@@ -60,17 +59,7 @@ if (!isset($_SESSION['admin'])) {
         <span class="material-symbols-outlined">badge</span>
         <span class="nav-label">Staff</span>
       </a>
-      <!-- <a href="#">
-        <span class="material-symbols-outlined">list_alt</span>
-        <span class="nav-label">Requests</span>
-      </a>
-      <a href="#">
-        <span class="material-symbols-outlined">analytics</span>
-        <span class="nav-label">Reports</span>
-      </a> -->
     </nav>
-
-    <!-- Admin Profile + Logout -->
     <div style="
           padding: 24px 32px 0;
           border-top: 1px solid #1e293b;
@@ -99,7 +88,7 @@ if (!isset($_SESSION['admin'])) {
           <p class="sidebar-admin-role"><?php echo strtolower($row['email']) ?></p>
         </div>
       </div>
-      <a href="index.php" style="
+      <a href="logout.php" style="
             display: flex;
             align-items: center;
             gap: 12px;
@@ -193,7 +182,7 @@ if (!isset($_SESSION['admin'])) {
                       $sign = substr($bg, -1);
                       $group = substr($bg, 0, -1);
                       ?>
-                      <div class="blood-letter"><?php echo strtoupper($group)?></div>
+                      <div class="blood-letter"><?php echo strtoupper($group) ?></div>
                       <div class="blood-sign"><?php echo $sign ?></div>
                     </div>
                   </td>
@@ -205,15 +194,16 @@ if (!isset($_SESSION['admin'])) {
                   </td>
                   <td>
                     <div class="donor-actions">
-                      <button class="donor-action-btn view">
-                        <span class="material-symbols-outlined">visibility</span>
-                      </button>
-                      <button class="donor-action-btn edit">
-                        <span class="material-symbols-outlined">edit</span>
-                      </button>
-                      <!-- <button class="donor-action-btn del">
-                        <span class="material-symbols-outlined">delete</span>
-                      </button> -->
+                      <a href="donor-details.php?details=<?php echo $row['id'] ?>">
+                        <button class="donor-action-btn view">
+                          <span class="material-symbols-outlined" title="Full Details">visibility</span>
+                        </button>
+                      </a>
+                      <a href="update-donor.php?donor=<?php echo $row['id'] ?>">
+                        <button class="donor-action-btn edit">
+                          <span class="material-symbols-outlined" title="Edit">edit</span>
+                        </button>
+                      </a>
                     </div>
                   </td>
                 </tr>

@@ -39,24 +39,22 @@ if (isset($_GET["delete"])) {
      SIDEBAR
 ═══════════════════════════════════════ -->
   <aside class="sidebar">
-    <!-- Brand -->
     <div class="sidebar-brand">
-      <h1>HEMOGLOBIN</h1>
-      <p style="
-            font-size: 10px;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-top: 4px;
-          ">
-        Central Command
-      </p>
+      <h1><span id="life">Life </span><span id="drop">Drop</span></h1>
+      <div class="sidebar-admin">
+        <div class="sidebar-admin-avatar">
+          <span class="material-symbols-outlined">shield_person</span>
+        </div>
+        <div>
+          <p class="sidebar-admin-name">Admin Panel</p>
+          <p class="sidebar-admin-role">Central Command</p>
+        </div>
+      </div>
     </div>
 
-    <!-- Nav Links -->
     <nav class="sidebar-nav">
       <a href="dashboard.php">
-        <span class="material-symbols-outlined">dashboard</span>
+        <span class="material-symbols-outlined active-pill">dashboard</span>
         <span class="nav-label">Dashboard</span>
       </a>
       <a href="donors.php">
@@ -75,17 +73,7 @@ if (isset($_GET["delete"])) {
         <span class="material-symbols-outlined">badge</span>
         <span class="nav-label">Staff</span>
       </a>
-      <!-- <a href="#">
-        <span class="material-symbols-outlined">list_alt</span>
-        <span class="nav-label">Requests</span>
-      </a>
-      <a href="#">
-        <span class="material-symbols-outlined">analytics</span>
-        <span class="nav-label">Reports</span> -->
-      </a>
     </nav>
-
-    <!-- Admin Profile + Logout -->
     <div style="
           padding: 24px 32px 0;
           border-top: 1px solid #1e293b;
@@ -114,7 +102,7 @@ if (isset($_GET["delete"])) {
           <p class="sidebar-admin-role"><?php echo strtolower($row['email']) ?></p>
         </div>
       </div>
-      <a href="index.php" style="
+      <a href="logout.php" style="
             display: flex;
             align-items: center;
             gap: 12px;
@@ -130,6 +118,7 @@ if (isset($_GET["delete"])) {
       </a>
     </div>
   </aside>
+
 
   <!-- ═══════════════════════════════════════
      MAIN CONTENT
@@ -245,7 +234,7 @@ if (isset($_GET["delete"])) {
                       <img
                         src="https://imgs.search.brave.com/RIJ78YvOZhv5816VrwB5tzHiPRFlP8twQoBuoPsjRmk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTQ1/MTU4NzgwNy92ZWN0/b3IvdXNlci1wcm9m/aWxlLWljb24tdmVj/dG9yLWF2YXRhci1v/ci1wZXJzb24taWNv/bi1wcm9maWxlLXBp/Y3R1cmUtcG9ydHJh/aXQtc3ltYm9sLXZl/Y3Rvci5qcGc_cz02/MTJ4NjEyJnc9MCZr/PTIwJmM9eURKNElU/WDFjSE1oMjVMdDF2/STF6Qm4yY0FLS0Fs/QnlIQnZQSjhnRWlJ/Zz0" />
                     </div> -->
-                    <div class="donor-avatar"><?php echo ucfirst($row['name'][0])?></div>
+                    <div class="donor-avatar"><?php echo ucfirst($row['name'][0]) ?></div>
                     <div>
                       <p class="staff-name"><?php echo ucwords($row['name']) ?></p>
                       <!-- <p class="staff-email"><?php echo $row['email'] ?></p> -->
@@ -275,11 +264,11 @@ if (isset($_GET["delete"])) {
                 <td class="text-right">
                   <div class="staff-actions">
                     <button class="staff-action-btn edit">
-                      <span class="material-symbols-outlined">edit</span>
+                      <span class="material-symbols-outlined" title="Edit">edit</span>
                     </button>
                     <a href="staff.php?delete=<?php echo $row['id'] ?>">
                       <button class="staff-action-btn del">
-                        <span class="material-symbols-outlined">delete</span>
+                        <span class="material-symbols-outlined" title="Delete">delete</span>
                       </button>
                     </a>
                   </div>

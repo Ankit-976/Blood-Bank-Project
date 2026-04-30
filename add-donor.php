@@ -126,12 +126,8 @@ if (isset($_POST['submit'])) {
                     <label for="doj">Last Donation Date</label>
                     <input type="date" id="doj" name="last_donation_date" required>
                 </div>
-                <!-- <div class="add-staff-field">
-                    <label for="doj">Donation Date</label>
-                    <input type="date" id="doj" name="donation_date" required>
-                </div> -->
                 <div class="add-staff-field">
-                    <label for="staff">Staff</label>
+                    <label for="staff">Staff Assisting</label>
                     <select id="staff" name="staff" required>
                         <?php
                         $result = mysqli_query($conn, "SELECT name, role FROM staff");

@@ -31,7 +31,7 @@ $total_units = $totalRow['total_units'];
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-brand">
-        <h1>HEMOGLOBIN</h1>
+        <h1><span id="life">Life </span><span id="drop">Drop</span></h1>
         <div class="sidebar-admin">
           <div class="sidebar-admin-avatar">
             <span class="material-symbols-outlined">shield_person</span>
@@ -64,14 +64,6 @@ $total_units = $totalRow['total_units'];
           <span class="material-symbols-outlined">badge</span>
           <span class="nav-label">Staff</span>
         </a>
-        <!-- <a href="#">
-          <span class="material-symbols-outlined">list_alt</span>
-          <span class="nav-label">Requests</span>
-        </a>
-        <a href="#">
-          <span class="material-symbols-outlined">analytics</span>
-          <span class="nav-label">Reports</span>
-        </a> -->
       </nav>
       <div
         style="
