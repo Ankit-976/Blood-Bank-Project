@@ -6,6 +6,9 @@ if (!isset($_SESSION['admin'])) {
   header("Location: index.php");
   exit();
 }
+
+$filter = $_GET["blood-group-select"] ?? "";
+
 ?>
 
 <!doctype html>
@@ -120,7 +123,6 @@ if (!isset($_SESSION['admin'])) {
     </header>
 
     <div class="donor-body">
-      <!-- Two-column grid: table | register form -->
       <div class="staff-table-card">
         <div class=" donor-table-card">
           <div class="donor-toolbar">
@@ -128,22 +130,24 @@ if (!isset($_SESSION['admin'])) {
               <span class="material-symbols-outlined">search</span>
               <input class="donor-search-input" type="text" placeholder="Search by name, ID or phone..." />
             </div>
-            <div class="donor-filter-row">
-              <select class="donor-select">
-                <option>All Blood Groups</option>
-                <option>A+</option>
-                <option>A-</option>
-                <option>B+</option>
-                <option>B-</option>
-                <option>AB+</option>
-                <option>AB-</option>
-                <option>O+</option>
-                <option>O-</option>
-              </select>
-              <button class="donor-filter-btn">
-                <span class="material-symbols-outlined">filter_list</span>
-              </button>
-            </div>
+            <form method="GET">
+              <div class="donor-filter-row">
+                <select class="donor-select" name="blood-group-select" onchange="this.form.submit()">
+                  <option value="">All Blood Groups</option>
+                  <option value="A+" <?php if ($filter == "A+") echo "selected"?>>A+</option>
+                  <option value="A-"  <?php if ($filter == "A-") echo "selected"?>>A-</option>
+                  <option value="B+"  <?php if ($filter == "B+") echo "selected"?>>B+</option>
+                  <option value="B-"  <?php if ($filter == "B-") echo "selected"?>>B-</option>
+                  <option value="AB+"  <?php if ($filter == "AB+") echo "selected"?>>AB+</option>
+                  <option value="AB-"  <?php if ($filter == "AB-") echo "selected"?>>AB-</option>
+                  <option value="O+"  <?php if ($filter == "O+") echo "selected"?>>O+</option>
+                  <option value="O-"  <?php if ($filter == "O-") echo "selected"?>>O-</option>
+                </select>
+                <!-- <button class="donor-filter-btn">
+                  <span class="material-symbols-outlined">filter_list</span>
+                </button> -->
+              </div>
+            </form>
           </div>
           <table class=" donor-table">
             <thead>
@@ -160,7 +164,21 @@ if (!isset($_SESSION['admin'])) {
             <tbody>
               <?php
 
-              $result = mysqli_query($conn, "SELECT donors.*, staff.name AS staff_name FROM donors JOIN staff ON donors.staff_id = staff.id");
+              // $result = mysqli_query($conn, "SELECT donors.*, staff.name AS staff_name FROM donors JOIN staff ON donors.staff_id = staff.id");
+              if ($filter) {
+                    $result = mysqli_query($conn, "
+                    SELECT donors.*, staff.name AS staff_name 
+                    FROM donors 
+                    JOIN staff ON donors.staff_id = staff.id
+                    WHERE donors.blood_group = '$filter'
+                ");
+              } else {
+                    $result = mysqli_query($conn, "
+                    SELECT donors.*, staff.name AS staff_name 
+                    FROM donors 
+                    JOIN staff ON donors.staff_id = staff.id
+                ");
+              }
 
               while ($row = mysqli_fetch_array($result)) {
                 ?>
@@ -212,6 +230,8 @@ if (!isset($_SESSION['admin'])) {
             </tbody>
           </table>
         </div>
+      </div>
+    </div>
   </main>
 </body>
 
