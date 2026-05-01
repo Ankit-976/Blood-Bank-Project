@@ -86,7 +86,7 @@ if(isset($_POST['submit'])){
         </div>
           <div class="login-input-wrap">
             <span class="material-symbols-outlined input-icon">lock</span>
-            <input class="login-input" id="password" placeholder="••••••••••••" name="password" type="password" required autocomplete="new-password"/>
+            <input class="login-input" id="password" placeholder="••••••••••••" name="password" required autocomplete="new-password"/>
             <button class="login-toggle-vis" type="button">
               <span class="material-symbols-outlined">visibility</span>
             </button>
