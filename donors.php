@@ -126,10 +126,10 @@ $filter = $_GET["blood-group-select"] ?? "";
       <div class="staff-table-card">
         <div class=" donor-table-card">
           <div class="donor-toolbar">
-            <div class="donor-search-wrap">
+            <!-- <div class="donor-search-wrap">
               <span class="material-symbols-outlined">search</span>
               <input class="donor-search-input" type="text" placeholder="Search by name, ID or phone..." />
-            </div>
+            </div> -->
             <form method="GET">
               <div class="donor-filter-row">
                 <select class="donor-select" name="blood-group-select" onchange="this.form.submit()">

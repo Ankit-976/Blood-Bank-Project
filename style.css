@@ -1399,7 +1399,7 @@ td {
 @media (min-width: 768px) {
   .donor-toolbar {
     flex-direction: row;
-    justify-content: space-between;
+    justify-content:end;
     align-items: center;
   }
 }
