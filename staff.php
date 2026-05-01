@@ -128,7 +128,7 @@ if (isset($_GET["delete"])) {
     <header class="staff-header">
       <div>
         <h2>Staff Directory</h2>
-        <p>Manage hospital staff records, roles, and attendance status.</p>
+        <p>Manage hospital staff records and roles.</p>
       </div>
       <a href="add-staff.php">
         <button class="staff-add-btn">
