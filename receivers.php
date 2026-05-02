@@ -245,7 +245,7 @@ if (!isset($_SESSION['admin'])) {
                     <span class="material-symbols-outlined" title="Full Details">visibility</span>
                   </button>
                 </a>
-                <a href="update-receiver.php?donor=<?php echo $row['id'] ?>">
+                <a href="update-receiver.php?receiver=<?php echo $row['id'] ?>">
                   <button class="donor-action-btn edit">
                     <span class="material-symbols-outlined" title="Edit">edit</span>
                   </button>
