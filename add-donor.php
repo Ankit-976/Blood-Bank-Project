@@ -123,7 +123,7 @@ if (isset($_POST['submit'])) {
                     <input type="date" id="dob" name="dob" required>
                 </div>
                 <div class="add-staff-field">
-                    <label for="doj">Last Donation Date</label>
+                    <label for="doj">Last Donated</label>
                     <input type="date" id="doj" name="last_donation_date" required>
                 </div>
                 <div class="add-staff-field">

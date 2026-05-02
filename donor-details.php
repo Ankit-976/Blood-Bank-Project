@@ -85,6 +85,10 @@ if (isset($_GET["details"])) {
           <label>Last Donation Date</label>
           <div><?php echo  $row['last_donation_date']?></div>
         </div>
+        <div class="add-staff-field">
+          <label>Donation Date</label>
+          <div><?php echo  $row['donation_date']?></div>
+        </div>
 
         <div class="add-staff-field">
           <label>Staff Assisted</label>
