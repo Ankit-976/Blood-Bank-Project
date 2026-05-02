@@ -119,21 +119,21 @@ if (!isset($_SESSION['admin'])) {
     <header class="recv-header">
       <div>
         <nav class="recv-breadcrumb">
-          <span>ADMIN</span>
-          <span>/</span>
+          <!-- <span>ADMIN</span>
+          <span>/</span> -->
           <span class="current">RECEIVERS</span>
         </nav>
-        <h1>Receiver Requests</h1>
-        <p>Manage blood requests and life-saving distributions.</p>
+        <h1>Receiver Management</h1>
+        <p>Manage blood receivers and life-saving distributions.</p>
       </div>
       <button class="recv-header-btn">
         <span class="material-symbols-outlined" style="font-size:20px;">add</span>
-        New Request
+        New Receiver
       </button>
     </header>
 
     <!-- Stats Cards -->
-    <div class="recv-stats-grid" style="margin-bottom: 24px;">
+    <!-- <div class="recv-stats-grid" style="margin-bottom: 24px;">
 
       <div class="recv-stat-card">
         <div class="recv-stat-icon orange">
@@ -175,19 +175,99 @@ if (!isset($_SESSION['admin'])) {
         </div>
       </div>
 
-    </div>
+    </div> -->
+
+    <table class=" donor-table">
+      <thead>
+        <tr>
+          <th>Receiver Details</th>
+          <th>Blood Type</th>
+          <th>Aadhar Number</th>
+          <th>Purpose</th>
+          <th>Receiving Date</th>
+          <th>Staff Assisted</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+
+        // $result = mysqli_query($conn, "SELECT donors.*, staff.name AS staff_name FROM donors JOIN staff ON donors.staff_id = staff.id");
+        // if ($filter) {
+        //   $result = mysqli_query($conn, "
+        //             SELECT donors.*, staff.name AS staff_name 
+        //             FROM donors 
+        //             JOIN staff ON donors.staff_id = staff.id
+        //             WHERE donors.blood_group = '$filter'
+        //         ");
+        // } else {
+          $result = mysqli_query($conn, "
+                    SELECT receivers.*, staff.name AS staff_name 
+                    FROM receivers 
+                    JOIN staff ON receivers.staff_id = staff.id
+                ");
+        // }
+
+        while ($row = mysqli_fetch_array($result)) {
+          ?>
+          <tr>
+            <td>
+              <div class="donor-cell">
+                <div class="donor-avatar"><?php echo ucfirst($row['name'][0]) ?></div>
+                <div>
+                  <p class="donor-name"><?php echo ucwords($row['name']) ?></p>
+                  <p class="donor-id"><?php echo $row['contact'] ?></p>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="blood-type-wrap">
+                <?php
+                $bg = $row['blood_group'];
+
+                $sign = substr($bg, -1);
+                $group = substr($bg, 0, -1);
+                ?>
+                <div class="blood-letter"><?php echo strtoupper($group) ?></div>
+                <div class="blood-sign"><?php echo $sign ?></div>
+              </div>
+            </td>
+            <td><span class="donor-status"><?php echo $row['aadhaar_no'] ?></span></td>
+            <td><span class="donor-date"><?php echo $row['purpose'] ?></span></td>
+            <td><span class="donor-date"><?php echo $row['receiving_date'] ?></span></td>
+            <td>
+              <p class="donor-name"><?php echo ucwords($row['staff_name']) ?></p>
+            </td>
+            <td>
+              <div class="donor-actions">
+                <a href="receiver-details.php?details=<?php echo $row['id'] ?>">
+                  <button class="donor-action-btn view">
+                    <span class="material-symbols-outlined" title="Full Details">visibility</span>
+                  </button>
+                </a>
+                <a href="update-receiver.php?donor=<?php echo $row['id'] ?>">
+                  <button class="donor-action-btn edit">
+                    <span class="material-symbols-outlined" title="Edit">edit</span>
+                  </button>
+                </a>
+              </div>
+            </td>
+          </tr>
+
+        <?php } ?>
+      </tbody>
+    </table>
 
     <!-- Two-column grid -->
-    <div class="recv-grid">
+    <!-- <div class="recv-grid">
 
-      <!-- ── Left: Receiver Details Form ── -->
       <section class="recv-form-card">
         <h3>
           <span class="material-symbols-outlined">person_add</span>
           Receiver Details
         </h3>
 
-        <form class="recv-form">
+        <form class="recv-form" method="POST">
 
           <div class="recv-field">
             <label class="recv-label">Full Name</label>
@@ -196,8 +276,8 @@ if (!isset($_SESSION['admin'])) {
 
           <div class="recv-two-col">
             <div class="recv-field">
-              <label class="recv-label">Receiver ID</label>
-              <input class="recv-input" type="text" placeholder="REC-901" />
+              <label class="recv-label">Aadhaar Number</label>
+              <input class="recv-input" type="number" placeholder="ex. 258964322497" />
             </div>
             <div class="recv-field">
               <label class="recv-label">DOB</label>
@@ -251,10 +331,8 @@ if (!isset($_SESSION['admin'])) {
         </form>
       </section>
 
-      <!-- ── Right: Receiver Table ── -->
       <section class="recv-table-card">
 
-        <!-- Toolbar -->
         <div class="recv-table-toolbar">
           <div class="recv-search-wrap">
             <span class="material-symbols-outlined">search</span>
@@ -270,7 +348,6 @@ if (!isset($_SESSION['admin'])) {
           </div>
         </div>
 
-        <!-- Table -->
         <div class="recv-table-scroll">
           <table class="recv-table">
             <thead>
@@ -284,7 +361,6 @@ if (!isset($_SESSION['admin'])) {
             </thead>
             <tbody>
 
-              <!-- Row 1 -->
               <tr>
                 <td>
                   <div class="recv-cell">
@@ -307,7 +383,6 @@ if (!isset($_SESSION['admin'])) {
                 </td>
               </tr>
 
-              <!-- Row 2 -->
               <tr>
                 <td>
                   <div class="recv-cell">
@@ -330,7 +405,6 @@ if (!isset($_SESSION['admin'])) {
                 </td>
               </tr>
 
-              <!-- Row 3 -->
               <tr>
                 <td>
                   <div class="recv-cell">
@@ -353,7 +427,6 @@ if (!isset($_SESSION['admin'])) {
                 </td>
               </tr>
 
-              <!-- Row 4 -->
               <tr>
                 <td>
                   <div class="recv-cell">
@@ -380,7 +453,6 @@ if (!isset($_SESSION['admin'])) {
           </table>
         </div>
 
-        <!-- Table Footer -->
         <div class="recv-table-footer">
           <p class="recv-table-count">Showing 4 of 142 results</p>
           <div class="recv-pagination">
@@ -391,17 +463,9 @@ if (!isset($_SESSION['admin'])) {
 
       </section>
 
-    </div><!-- /recv-grid -->
+    </div> -->
 
-    <!-- Footer -->
-    <footer class="page-footer">
-      <p class="footer-copy">© 2024 Hemoglobin Blood Management System. Life-saving efficiency.</p>
-      <div class="footer-links">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Contact Support</a>
-      </div>
-    </footer>
+
 
   </main>
 
