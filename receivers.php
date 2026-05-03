@@ -126,10 +126,12 @@ if (!isset($_SESSION['admin'])) {
         <h1>Receiver Management</h1>
         <p>Manage blood receivers and life-saving distributions.</p>
       </div>
-      <button class="recv-header-btn">
-        <span class="material-symbols-outlined" style="font-size:20px;">add</span>
-        New Receiver
-      </button>
+      <a href="add-receiver.php">
+        <button class="recv-header-btn">
+          <span class="material-symbols-outlined" style="font-size:20px;">add</span>
+          New Receiver
+        </button>
+      </a>
     </header>
 
     <!-- Stats Cards -->
@@ -201,13 +203,13 @@ if (!isset($_SESSION['admin'])) {
         //             WHERE donors.blood_group = '$filter'
         //         ");
         // } else {
-          $result = mysqli_query($conn, "
+        $result = mysqli_query($conn, "
                     SELECT receivers.*, staff.name AS staff_name 
                     FROM receivers 
                     JOIN staff ON receivers.staff_id = staff.id
                 ");
         // }
-
+        
         while ($row = mysqli_fetch_array($result)) {
           ?>
           <tr>
