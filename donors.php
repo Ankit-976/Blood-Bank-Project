@@ -165,22 +165,22 @@ $filter = $_GET["blood-group-select"] ?? "";
               <?php
 
               // $result = mysqli_query($conn, "SELECT donors.*, staff.name AS staff_name FROM donors JOIN staff ON donors.staff_id = staff.id");
-              if ($filter) {
+              ($filter) ? (
                     $result = mysqli_query($conn, "
                     SELECT donors.*, staff.name AS staff_name 
                     FROM donors 
                     JOIN staff ON donors.staff_id = staff.id
                     WHERE donors.blood_group = '$filter'
                     ORDER BY created_at DESC
-                ");
-              } else {
+                ")
+               ) :  (
                     $result = mysqli_query($conn, "
                     SELECT donors.*, staff.name AS staff_name 
                     FROM donors 
                     JOIN staff ON donors.staff_id = staff.id
                     ORDER BY created_at DESC
-                ");
-              }
+                ")
+               );
 
               while ($row = mysqli_fetch_array($result)) {
                 ?>
