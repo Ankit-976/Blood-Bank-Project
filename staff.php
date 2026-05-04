@@ -223,7 +223,7 @@ if (isset($_GET["delete"])) {
             <!-- Row 1 -->
             <?php
 
-            $result = mysqli_query($conn, "SELECT * FROM staff");
+            $result = mysqli_query($conn, "SELECT * FROM staff ORDER BY joining_date DESC");
 
             while ($row = mysqli_fetch_array($result)) {
               ?>
@@ -263,9 +263,11 @@ if (isset($_GET["delete"])) {
                 </td> -->
                 <td class="text-right">
                   <div class="staff-actions">
-                    <button class="staff-action-btn edit">
-                      <span class="material-symbols-outlined" title="Edit">edit</span>
-                    </button>
+                    <a href="update-staff.php?staff=<?php echo $row['id'] ?>">
+                      <button class="staff-action-btn edit">
+                        <span class="material-symbols-outlined" title="Edit">edit</span>
+                      </button>
+                    </a>
                     <a href="staff.php?delete=<?php echo $row['id'] ?>">
                       <button class="staff-action-btn del">
                         <span class="material-symbols-outlined" title="Delete">delete</span>
