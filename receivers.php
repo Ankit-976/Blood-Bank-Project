@@ -7,6 +7,9 @@ if (!isset($_SESSION['admin'])) {
   header("Location: index.php");
   exit();
 }
+
+$filter = $_GET["blood-group-select"] ?? "";
+
 ?>
 
 <!DOCTYPE html>
@@ -178,41 +181,69 @@ if (!isset($_SESSION['admin'])) {
       </div>
 
     </div> -->
-
+    <div class="donor-toolbar">
+      <form method="GET">
+        <div class="donor-filter-row">
+          <select class="donor-select" name="blood-group-select" onchange="this.form.submit()" style="width: 200px">
+            <option value="">All Blood Groups</option>
+            <option value="A+" <?php if ($filter == "A+")
+              echo "selected" ?>>A+</option>
+              <option value="A-" <?php if ($filter == "A-")
+              echo "selected" ?>>A-</option>
+              <option value="B+" <?php if ($filter == "B+")
+              echo "selected" ?>>B+</option>
+              <option value="B-" <?php if ($filter == "B-")
+              echo "selected" ?>>B-</option>
+              <option value="AB+" <?php if ($filter == "AB+")
+              echo "selected" ?>>AB+</option>
+              <option value="AB-" <?php if ($filter == "AB-")
+              echo "selected" ?>>AB-</option>
+              <option value="O+" <?php if ($filter == "O+")
+              echo "selected" ?>>O+</option>
+              <option value="O-" <?php if ($filter == "O-")
+              echo "selected" ?>>O-</option>
+            </select>
+            <!-- <button class="donor-filter-btn">
+                  <span class="material-symbols-outlined">filter_list</span>
+                </button> -->
+          </div>
+        </form>
+      </div>
     <table class=" donor-table">
-      <thead>
-        <tr>
-          <th>Receiver Details</th>
-          <th>Blood Type</th>
-          <th>Aadhar Number</th>
-          <th>Purpose</th>
-          <th>Receiving Date</th>
-          <th>Staff Assisted</th>
-          <th class="text-right">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
+        <thead>
+          <tr>
+            <th>Receiver Details</th>
+            <th>Blood Type</th>
+            <th>Aadhar Number</th>
+            <th>Purpose</th>
+            <th>Receiving Date</th>
+            <th>Staff Assisted</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
 
-        // $result = mysqli_query($conn, "SELECT donors.*, staff.name AS staff_name FROM donors JOIN staff ON donors.staff_id = staff.id");
-        // if ($filter) {
-        //   $result = mysqli_query($conn, "
-        //             SELECT donors.*, staff.name AS staff_name 
-        //             FROM donors 
-        //             JOIN staff ON donors.staff_id = staff.id
-        //             WHERE donors.blood_group = '$filter'
-        //         ");
-        // } else {
-        $result = mysqli_query($conn, "
+            // $result = mysqli_query($conn, "SELECT receivers.*, staff.name AS staff_name FROM receivers JOIN staff ON receivers.staff_id = staff.id");
+            if ($filter) {
+              $result = mysqli_query($conn, "
+                        SELECT receivers.*, staff.name AS staff_name 
+                        FROM receivers 
+                        JOIN staff ON receivers.staff_id = staff.id
+                        WHERE receivers.blood_group = '$filter'
+                        ORDER BY created_at DESC
+                    ");
+            } else {
+            $result = mysqli_query($conn, "
                     SELECT receivers.*, staff.name AS staff_name 
                     FROM receivers 
                     JOIN staff ON receivers.staff_id = staff.id
                     ORDER BY created_at DESC
                 ");
-        // }
-        
-        while ($row = mysqli_fetch_array($result)) {
-          ?>
+            }
+            
+            while ($row = mysqli_fetch_array($result)) {
+              ?>
           <tr>
             <td>
               <div class="donor-cell">
