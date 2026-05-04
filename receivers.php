@@ -207,6 +207,7 @@ if (!isset($_SESSION['admin'])) {
                     SELECT receivers.*, staff.name AS staff_name 
                     FROM receivers 
                     JOIN staff ON receivers.staff_id = staff.id
+                    ORDER BY created_at DESC
                 ");
         // }
         
