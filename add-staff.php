@@ -48,7 +48,7 @@
     <div class="add-staff-header">
       <div>
         <h1>Add New Staff</h1>
-        <p>Enter employee details below</p>
+        <p>Enter staff details below</p>
       </div>
       <a href="staff.php" class="add-staff-back-btn">Back</a>
     </div>
