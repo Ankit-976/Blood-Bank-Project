@@ -1,6 +1,6 @@
 🩸 Blood Bank Management System
 
-A full-stack Blood Bank Management System built using PHP, MySQL, HTML, CSS, and JavaScript.
+A full-stack Blood Bank Management System built using PHP, MySQL, HTML, CSS. 
 This system helps manage donors, receivers, staff, and blood stock efficiently with a real-time dashboard.
 
 ---
@@ -21,7 +21,7 @@ This system helps manage donors, receivers, staff, and blood stock efficiently w
 
 🧱 Tech Stack
 
-- Frontend: HTML, CSS, JavaScript
+- Frontend: HTML, CSS
 - Backend: PHP
 - Database: MySQL
 - Server: XAMPP
@@ -83,8 +83,6 @@ http://localhost/Blood-Bank/
 
 🔐 Future Improvements
 
-- Authentication system (Admin Login)
-- Notifications for critical stock
 - Export reports (PDF)
 - Email/SMS alerts
 
@@ -101,7 +99,7 @@ http://localhost/Blood-Bank/
 
 👨‍💻 Author
 
-Your Name
+Ankit Basa
 
 ---
 
